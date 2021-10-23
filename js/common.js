@@ -1,57 +1,138 @@
 $(function() {
 
-    //MENU開閉
-    $('#nav-open').click(function(){
-        var st = $(window).scrollTop();
-        $('#aaa').text(st);
-        if ($('#nav-content').css('display') == 'block') {
-            $('#nav-content').fadeOut();
-            $('.nav_close_cover').fadeOut();
-            $('html').removeClass('scroll-prevent');
-            $(window).scrollTop(st);
+    $('#cover').fadeOut(500);
+
+    $("a").on('click',function(event){
+        var linkUrl = $(this).attr('href');
+        var linkTarget = $(this).attr('target');
+        if( linkUrl.slice(0,1) == '#' || linkTarget == '_blank' ){
         }else{
-            $('#nav-content').fadeIn();
-            $('.nav_close_cover').fadeIn();
-            $('html').addClass('scroll-prevent');
-            $('html').css('top', -(st) + 'px');
+            // ここにリンク先への遷移直前に実行する内容を記述
+            event.preventDefault();
+            $('#cover2').removeClass('close');
+            function action() {
+                location.href = linkUrl;
+            }
+            setTimeout(action,500);
         }
-    });
-
-    $('.nav_close_cover').click(function(){
-        var st = $('#aaa').text();
-        if ($('#nav-content').css('display') == 'block') {
-            $('#nav-content').fadeOut();
-            $('.nav_close_cover').fadeOut();
-            $('html').removeClass('scroll-prevent');
-            $(window).scrollTop(st);
-        }
-    });
-
-    //MENU分のTOPの隙間
-    function content_top() {
-        var headerheight = $('header').innerHeight();
-        $('#content').css('padding-top',headerheight);
-    }
-
-    var timer_common = false;
-    $(window).on('load resize', function() {
-        if (timer_common !== false) {
-            clearTimeout(timer_common);
-        }
-        timer_common = setTimeout(function() {
-            //リサイズ完了時
-            content_top();
-        }, 200);
     });
 
     //スムーススクロール
     var scroll = new SmoothScroll('a[href*="#"]', {
         speedAsDuration:true,
         speed:1000,
-        easing:'easeInOutCubic'
+        easing:'easeInOutCubic' // イージングも使えるよ！
     });
     //https://www.strobolights.tokyo/2019/08/11/post-43413/
+    /*
+    var urlHash = location.hash;
+    if(urlHash) {
+        $('body,html').stop().scrollTop(0);
+        setTimeout(function(){
+            var target = $(urlHash);
+            var position = target.offset().top;
+            $('body,html').stop().animate({scrollTop:position}, 500);
+        }, 700);
+    }
+    */
 
+    //モード変更
+    console.log($.cookie('light_dark'));
+
+    function to_light(){
+        $('#top').addClass('light');
+        $('#top').removeClass('dark');
+        $('body').css('background','white');
+    }
+    function to_dark(){
+        $('#top').removeClass('light');
+        $('#top').addClass('dark');
+        $('body').css('background','black');
+    }
+    if( $.cookie('light_dark') == 'dark' ){
+        to_dark();
+    }
+
+    $('#mode').click(function(){
+        console.log($.cookie('light_dark'));
+        if ($('#top').hasClass('dark')) {
+            to_light();
+            $.removeCookie('light_dark');
+        }else{
+            to_dark();
+            $.cookie('light_dark','dark','/');
+            //$.cookie('light_dark','dark',{path:'/'});
+        }
+        console.log($.cookie('light_dark'));
+    });
+
+    // TextTypingというクラス名がついている子要素（span）を表示から非表示にする定義
+    /*
+    function TextTypingAnime() {
+      $('.TextTyping').each(function () {
+        var elemPos = $(this).offset().top - 50;
+        var scroll = $(window).scrollTop();
+        var windowHeight = $(window).height();
+        var thisChild = "";
+        if (scroll >= elemPos - windowHeight) {
+          thisChild = $(this).children();
+          thisChild.each(function (i) {
+            var time = 50;
+            $(this).delay(time * i).fadeIn(time);
+          });
+        } else {
+          thisChild = $(this).children();
+          thisChild.each(function () {
+            $(this).stop();
+            $(this).css("display", "none");
+          });
+        }
+      });
+    }
+    // 画面をスクロールをしたら動かしたい場合の記述
+    $(window).scroll(function () {
+        TextTypingAnime();
+    });
+    */
+
+    function bg() {
+        var top = $('#particle1').offset().top;
+        var value = $(this).scrollTop();
+        var part1 = 0 - (value / 30);
+        var part2 = 0 - (value / 5);
+        var part3 = 0 - (value / 10);
+        $('#particle1').css('background-position-y', part1);
+        $('#particle2').css('background-position-y', part2);
+        $('#particle3').css('background-position-y', part3);
+    }
+    function bg_opacity() {
+        var windowheight = $(window).height();
+        var value = $(window).scrollTop();
+        var opacity = ( value / 2 ) * 0.01;
+        var opacity = 1 - opacity;
+        if( opacity > 0.5 ){
+            $('.particle').css('opacity', opacity);
+        }else{
+            $('.particle').css('opacity', '0.5');
+        }
+    }
+
+    function header_bg(){
+        if( $(window).scrollTop() > 300 ){
+            $("header").addClass("bgwhite");
+        }else{
+            $("header").removeClass("bgwhite");
+        }
+    }
+
+    header_bg();
+    bg();
+    bg_opacity();
+    $(window).scroll(function() {
+        bg();
+        bg_opacity();
+        header_bg();
+    });
 
     //ToTopBtn
     $("#topBtn").hide();
@@ -62,19 +143,50 @@ $(function() {
             $("#topBtn").fadeOut("fast");
         }
         scrollHeight = $(document).height(); //ドキュメントの高さ
-        scrollPosition = $(window).height() + $(window).scrollTop(); //現在地
+        scrollPosition = $(window).height() + $(window).scrollTop(); //現在位置
         footHeight = $("footer").innerHeight(); //footerの高さ（＝止めたい位置）
-        if ( scrollHeight - scrollPosition  <= footHeight ) { //ドキュメントの高さと現在地の差がfooterの高さ以下になったら
+        if ( scrollHeight - scrollPosition  <= footHeight ) {
             $("#topBtn").css({
-                "position":"absolute", //pisitionをabsolute（親：wrapperからの絶対値）に変更
-                "bottom": footHeight + 20 //下からfooterの高さ + 20px上げた位置に配置
+                "position":"absolute",
+                "bottom": footHeight + 20
             });
-        } else { //それ以外の場合は
+        } else {
             $("#topBtn").css({
-                "position":"fixed", //固定表示
-                "bottom": "20px" //下から20px上げた位置に
+                "position":"fixed",
+                "bottom": "20px"
             });
         }
+    });
+
+    //Worksの高さ
+    function works_height() {
+        $('.works_unit').each(function () {
+            if( $(window).width() < 480 ){
+                $(this).find('.works_img_box').css('height','30vh');
+            }else if( $(window).width() < 860 ){
+                $(this).find('.works_img_box').css('height','50vh');
+            }else{
+                var text_h = $(this).find('.works_texts').height() - 20;
+                $(this).find('.works_img_box').css('height',text_h);
+            }
+        });
+    }
+    works_height();
+
+    $('.statusbar').each(function () {
+        var statusbar_height = $(this).height();
+        $(this).find('span').css('width',statusbar_height);
+    });
+
+    var timer_common = false;
+    $(window).on('load resize', function() {
+        if (timer_common !== false) {
+            clearTimeout(timer_common);
+        }
+        timer_common = setTimeout(function() {
+            //リサイズ完了時
+            works_height();
+        }, 50);
     });
 
 });
