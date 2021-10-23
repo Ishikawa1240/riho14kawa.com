@@ -1,0 +1,334 @@
+body{
+	line-height: 1.8;
+	font-size: 14px;
+	font-family: 'Lato',"Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
+	box-sizing: border-box;
+	font-feature-settings : "palt" 1;
+	letter-spacing: 0.1em;
+}
+.scroll-prevent {
+	position: fixed;
+	z-index: -1;
+	width: 100%;
+	height: 100%;
+}
+a{
+	color:#000;
+	text-decoration:none;
+}
+.center {
+	display:block;
+	margin:0 auto;
+}
+.clear {
+	clear:both;
+}
+.wrapper{
+	width: 100%;
+	padding: 0 40px;
+	margin: 0 auto;
+	max-width: 1280px;
+}
+@media screen and (max-width: 768px) {
+	.wrapper{
+		padding: 0 20px;
+	}
+}
+
+
+/*////////////////////////////////////////////////////////*/
+/*//////////////////// clearfix //////////////////////////*/
+/*////////////////////////////////////////////////////////*/
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+.cf:after {
+    clear: both;
+}
+.cf {
+    *zoom: 1;
+}
+.clear{
+	clear:both;
+}
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+
+/*////////////////////////////////////////////////////////*/
+/*//////////////////// responsive ////////////////////////*/
+/*////////////////////////////////////////////////////////*/
+.respd{
+	max-width: 100%;
+	height: auto;
+	width /***/:auto;
+	display: block;
+	vertical-align:top;
+}
+
+/*////////////////////////////////////////////////////////*/
+/*//////////////////// transition ////////////////////////*/
+/*////////////////////////////////////////////////////////*/
+
+.fade{
+	opacity: 1;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all  0.3s ease;
+}
+.fade:hover{
+    opacity: 0.7;
+}
+body,div,div::before,div::after,
+a,a::before,a::after,
+span,span::before,span::after,
+li,li::before,li::after{
+	-webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all  0.3s ease;
+}
+.no_trans{
+	-webkit-transition: 0s;
+    -moz-transition: 0s;
+    -o-transition: 0s;
+    transition: 0s;
+}
+
+/*////////////////////////////////////////////////////////*/
+/*////////////////////// menu ////////////////////////////*/
+/*////////////////////////////////////////////////////////*/
+header {
+    width: 100%;
+    position: fixed;
+    z-index: 10;
+    background: #fff;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+.headerlogo {
+    width: 150px;
+    display: block;
+    float: left;
+}
+.pc_menu{
+	float: right;
+	width: calc(100% - 180px);
+	text-align: right;
+	line-height: 1;
+}
+.pc_menu a{
+	display: inline-block;
+	margin-left: 15px;
+}
+.sp_menu{
+	float: right;
+}
+#nav-drawer {
+  position: relative;
+}
+.nav-unshown {
+  display:none;
+}
+#nav-open {
+	width: 40px;
+	height: 16px;
+	cursor: pointer;
+}
+#nav-open span, #nav-open span::before, #nav-open span::after {
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    border-radius: 0px;
+    background: #000;
+    display: block;
+    content: '';
+    cursor: pointer;
+    left: 0;
+}
+#nav-open span{
+	top: 0;
+}
+#nav-open span::before {
+	top: 8px;
+}
+#nav-open span::after {
+	top: 16px;
+}
+#nav-close {
+	display: none;
+	position: fixed;
+	z-index: 99;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: black;
+	opacity: 0;
+	transition: .3s ease-in-out;
+}
+#nav-content {
+	display: none;
+	overflow: auto;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.9);
+	color: #fff;
+	padding-top: 60px;
+}
+#nav-content .cf{
+	text-align: center;
+	padding-bottom: 50px;
+}
+#nav-content .f1,#nav-content .f2,#nav-content .f3{
+	display: inline-block;
+	text-align: left;
+	float: none;
+	vertical-align: text-top;
+}
+/*閉じるボタン*/
+.nav_close_cover {
+    display: none;
+    cursor: pointer;
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    z-index: 100;
+}
+.nav_close{
+    display: inline-block;
+    position: relative;
+    margin: 0 20px 0 20px;
+    padding: 0;
+    width: 1px;
+    height: 40px;
+    background: #fff;
+    transform: rotate(45deg);
+}
+.nav_close:before{
+    display: block;
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: -20px;
+    width: 40px;
+    height: 1px;
+    background: #fff;
+}
+#nav-content a{
+    color: #fff;
+}
+
+/*////////////////////////////////////////////////////////*/
+/*//////////////////// totopbtn //////////////////////////*/
+/*////////////////////////////////////////////////////////*/
+#topBtn{
+	display: none;
+	position: fixed;
+	bottom: 0;
+	z-index: 10;
+	width: 40px;
+	height: 40px;
+	border: 1px solid #ccc;
+	padding: 5px;
+	background: #fff;
+	right: 20px;
+}
+footer{
+	position: relative;
+	width: 100%;
+	background: #555;
+	padding: 10vh 40px;
+	color: #fff;
+	text-align: center;
+}
+
+/*////////////////////////////////////////////////////////*/
+/*//////////////////// show-hide /////////////////////////*/
+/*////////////////////////////////////////////////////////*/
+
+.show1280,.show1080,.show980,.show860,.show768,.show640,.show540,.show480,.show400{
+	display: none;
+}
+@media screen and (max-width: 1280px) {
+	.show1280{
+		display:block;
+	}
+	.hide1280{
+		display:none;
+	}
+}
+@media screen and (max-width: 1080px) {
+	.show1080{
+		display:block;
+	}
+	.hide1080{
+		display:none;
+	}
+}
+@media screen and (max-width: 980px) {
+	.show980{
+		display:block;
+	}
+	.hide980{
+		display:none;
+	}
+}
+@media screen and (max-width: 860px) {
+	.show860{
+		display:block;
+	}
+	.hide860{
+		display:none;
+	}
+}
+@media screen and (max-width: 768px) {
+	.show768{
+		display:block;
+	}
+	.hide768{
+		display:none;
+	}
+}
+@media screen and (max-width: 640px) {
+	.show640{
+		display:block;
+	}
+	.hide640{
+		display:none;
+	}
+}
+@media screen and (max-width: 540px) {
+	.show540{
+		display:block;
+	}
+	.hide540{
+		display:none;
+	}
+}
+@media screen and (max-width: 480px) {
+	.show480{
+		display:block;
+	}
+	.hide480{
+		display:none;
+	}
+}
+@media screen and (max-width: 400px) {
+	.show400{
+		display:block;
+	}
+	.hide400{
+		display:none;
+	}
+}

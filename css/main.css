@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+.sample{
+	padding: 10vh 0 100vh;
+	text-align: center;
+	width: 100%;
+	background: #efefef;
+}
+
+@media screen and (max-width: 768px) {
+	.show_768{
+		display:block;
+	}
+	.hide_768{
+		display:none;
+	}
+}
